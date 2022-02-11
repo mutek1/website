@@ -1,40 +1,29 @@
 pipeline {
-  environment {
-    imagename = "img1"
-    registryCredential = 'lsluserd'
-    dockerImage = ''
-  }
-  agent any
+  agent none
   stages {
-    stage('Cloning Git') {
+    stage('Maven Install') {
+      agent {
+        docker {
+          image 'maven:3.5.0'
+        }
+      }
       steps {
-        git([url: 'https://github.com/mutek1/website.git', branch: 'master', credentialsId: 'Githubuser'])
-
+        sh 'mvn clean install'
       }
     }
-    stage('Building image') {
-      steps{
-        script {
-          dockerImage = docker.build imagename
+    stage('Docker Build') {
+      agent any
+      steps {
+        sh 'docker build -t img1 .'
+      }
+    }
+    stage('Docker Push') {
+      agent any
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'lsluserd', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          sh 'docker push img1'
         }
-      }
-    }
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
-
       }
     }
   }
