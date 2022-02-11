@@ -1,7 +1,7 @@
-FROM php:7.0-apache
-
-RUN apt-get update && \
-    apt-get install -y php5-mysql && \
-    apt-get clean
-
-COPY myapp /var/www/html/
+FROM ubuntu
+RUN apt-get update
+RUN DEBIAN_FRONTEND="noninteractive" apt-get -y install tzdata
+RUN apt-get -y install apache2
+ADD . /var/www/html
+ENTRYPOINT apachectl -D FOREGROUND
+ENV name Intellipaat
