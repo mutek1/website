@@ -1,14 +1,14 @@
 pipeline {
   environment {
     imagename = "img1"
-    registryCredential = 'lsluserd'
+    registryCredential = 'Dockeruser'
     dockerImage = ''
   }
   agent any
   stages {
     stage('Cloning Git') {
       steps {
-        git([url: 'https://github.com/mutek1/website.git', branch: 'master', credentialsId: 'githubuser'])
+        git([url: 'https://github.com/mutek1/website.git', branch: 'master', credentialsId: 'git hub details'])
 
       }
     }
