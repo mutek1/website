@@ -1,23 +1,15 @@
-node {    
-      def app     
-      stage('Clone repository') {               
-             
-            checkout scm    
-      }     
-      stage('Build image') {         
-       
-            app = docker.build("lsluserd/test")    
-       }     
-      stage('Test image') {           
-            app.inside {            
-             
-             sh 'echo "Tests passed"'        
-            }    
-        }     
-       stage('Push image') {
-       docker.withRegistry('https://registry.hub.docker.com', 'git') {            
-       app.push("${env.BUILD_NUMBER}")            
-       app.push("latest")        
-              }    
-           }
+node {
+   stage('Example') {
+		sh './set-up.sh'
+        try {
+            sh "sudo docker kill $(docker ps -q)"
+            sh "docker rm $(docker ps -a -q)"
+            sh "docker rmi $(docker images -q)"
+
+        } catch (err) {
+            echo err.getMessage()
+            echo "Error detected, but we will continue."
         }
+        ...continue with other code...
+     }
+}
