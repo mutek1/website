@@ -1,10 +1,5 @@
 pipeline {
-  agent any 
-   tools {
-    maven 'maven'
-    jdk 'Java'
-  }
-  environment {
+    environment {
     imagename = "lsluserd/img1:gitimg"
     registryCredential = 'dockerhub'
     dockerhub = credentials('dockerhub')
