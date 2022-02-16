@@ -1,20 +1,16 @@
 pipeline {
   environment {
     imagename = "apache/lsluserd"
+    DOCKERHUB_CREDENTIALS$ = credentials('jenkinstoken')
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
   agent any
   stages {
-    stage('Cloning Git') {
-      steps {
-        git([url: 'https://github.com/mutek1/website.git', branch: 'master', credentialsId: 'Git_hub'])
-
-      }
-    }
     stage('Building image') {
       steps{
         script {
+          
           dockerImage = docker.build imagename
         }
       }
