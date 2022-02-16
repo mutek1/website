@@ -6,8 +6,7 @@ pipeline {
     dockerhub = credentials('dockerhub')
     dockerImage = ''
     }
-  agent any
-  stage('build image') {
+   stage('build image') {
       when {
           branch "test"
       }
