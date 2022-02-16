@@ -1,18 +1,23 @@
 pipeline {
-    agent any 
-    environment {
-    imagename = "lsluserd/img2:gitimg"
-    registryCredential = 'dockerhub'
-    dockerhub = credentials('dockerhub')
-    dockerImage = ''
-    }
-   stage('build image') {
-      when {
-          branch "test"
-      }
+  agent any
+  stages {
+
+    stage('Stage 1') {
       steps {
-          sh 'docker build -t lsluserd/img2:gitimg .'
+        script {
+          echo 'Stage 1'
+        }
       }
+    }
+
+    stage('Stage 2') {
+      steps {
+        script {
+          echo 'Stage 2'
+        }
+      }
+    }
+
   }
 }
       
