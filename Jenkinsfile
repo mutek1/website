@@ -1,6 +1,6 @@
 pipeline {
     environment {
-    imagename = "lsluserd/img1:gitimg"
+    imagename = "lsluserd/img2:gitimg"
     registryCredential = 'dockerhub'
     dockerhub = credentials('dockerhub')
     dockerImage = ''
@@ -10,16 +10,11 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-           dockerImage = docker.build imagename
-           sh 'docker build -t lsluserd/img2:gitimg .'
+           dockerImage = docker.build imagename           
         }
       }
     }
-    stage('Login') {
-      steps {
-        sh 'docker login -u lsluserd'
-      }
-    }
+    
     
    
   }
