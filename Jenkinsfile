@@ -3,8 +3,7 @@ pipeline {
     imagename = "apache/lsluserd"
     registryCredential = 'dockerhub'
     dockerImage = ''
-    DOCKERHUB_CREDENTIALS$ = credentials('dockerhub')
-  }
+    }
   agent any
   stages {
     stage('Building image') {
@@ -17,7 +16,7 @@ pipeline {
     }
     stage('Login') {
       steps {
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login  -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+        docker login -u lsluserd
       }
     }
     
