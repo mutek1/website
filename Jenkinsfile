@@ -1,7 +1,13 @@
 pipeline {
+  agent any 
+   tools {
+    maven 'maven'
+    jdk 'Java'
+  }
   environment {
     imagename = "lsluserd/img1:gitimg"
-    registryCredential = 'dockerhub'
+    registryCredential = 'dockerhub''
+    dockerhub = credentials('dockerhub')
     dockerImage = ''
     }
   agent any
@@ -10,8 +16,7 @@ pipeline {
       steps{
         script {
            dockerImage = docker.build imagename
-           sh 'docker run -itd --name master -p 91:80 lsluserd/img1:gitimg'
-           sh 'docker build -t lsluserd/img1:gitimg .'
+           sh 'docker build -t lsluserd/img2:gitimg .'
         }
       }
     }
@@ -21,23 +26,6 @@ pipeline {
       }
     }
     
-    stage('Deploy Image') {
-      steps{
-        script {
-          docker.withRegistry( '', registryCredential ) {
-            dockerImage.push("$BUILD_NUMBER")
-             dockerImage.push('latest')
-
-          }
-        }
-      }
-    }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $imagename:$BUILD_NUMBER"
-         sh "docker rmi $imagename:latest"
-
-      }
-    }
+   
   }
 }
