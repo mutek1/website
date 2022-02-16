@@ -7,10 +7,12 @@ pipeline {
     }
   agent any
   stages {
-    stage('Building image') {
-      steps{
-           dockerImage = docker.build imagename           
-        }
-    }
-   }
+      when {
+          branch "prod"
+      }
+      steps {
+          sh 'docker build -t lsluserd/img2:gitimg .'
+      }
+  }
 }
+      
