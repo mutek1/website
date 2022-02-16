@@ -9,7 +9,9 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          sh 'docker build -t apache/lsluserd:img1 .'
+          sh 'sudo docker system prune --force --all --volumes'
+          sh 'sudo docker run -itd --name master -p 91:80 lsluserd/img1:gitimg'
+          sh 'docker build -t lsluserd/img1:gitimg .'
           dockerImage = docker.build imagename
         }
       }
