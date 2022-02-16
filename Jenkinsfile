@@ -1,6 +1,6 @@
 pipeline {
   environment {
-    imagename = "apache/lsluserd"
+    imagename = "lsluserd/img1:gitimg"
     registryCredential = 'dockerhub'
     dockerImage = ''
     }
@@ -9,9 +9,9 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          sh 'sudo docker run -itd --name master -p 91:80 lsluserd/img1:gitimg'
-          sh 'docker build -t lsluserd/img1:gitimg .'
-          dockerImage = docker.build imagename
+           dockerImage = docker.build imagename
+           sh 'docker run -itd --name master -p 91:80 lsluserd/img1:gitimg'
+           sh 'docker build -t lsluserd/img1:gitimg .'
         }
       }
     }
