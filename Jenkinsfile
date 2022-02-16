@@ -6,7 +6,7 @@ pipeline {
   }
   environment {
     imagename = "lsluserd/img1:gitimg"
-    registryCredential = 'dockerhub''
+    registryCredential = 'dockerhub'
     dockerhub = credentials('dockerhub')
     dockerImage = ''
     }
