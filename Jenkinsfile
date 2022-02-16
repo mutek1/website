@@ -16,7 +16,7 @@ pipeline {
     }
     stage('Login') {
       steps {
-        docker login -u lsluserd
+        sh 'docker login -u lsluserd'
       }
     }
     
